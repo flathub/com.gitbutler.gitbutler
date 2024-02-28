@@ -41,6 +41,13 @@
   </content_rating>  
 
   <releases>
+    <release version="0.10.15" date="2024-02-22">
+      <description>
+        <p>Improves (even more) the error handling of pull request creation</p>
+        <p>Fixes a bug where failed PR creation is reported multiple times</p>
+        <p>Fixes a bug where PR creation can fail due to error reporting</p>
+      </description>
+    </release>
     <release version="0.10.14" date="2024-02-22">
       <description>
         <p>Improved error handling for errors related to Pull Requests</p>
