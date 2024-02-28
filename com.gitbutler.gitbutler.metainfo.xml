@@ -41,6 +41,13 @@
   </content_rating>  
 
   <releases>
+    <release version="0.10.16" date="2024-02-23">
+      <description>
+        <p>Updated user setting design</p>
+        <p>Improved error messages on push / fetch failure</p>
+        <p>Fixes a bug where if a push fails due to remote rejecting the change no error is shown</p>
+      </description>
+    </release>
     <release version="0.10.15" date="2024-02-22">
       <description>
         <p>Improves (even more) the error handling of pull request creation</p>
