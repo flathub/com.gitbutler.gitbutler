@@ -41,6 +41,14 @@
   </content_rating>  
 
   <releases>
+    <release version="0.10.14" date="2024-02-22">
+      <description>
+        <p>Improved error handling for errors related to Pull Requests</p>
+        <p>If a branch has a single commit, use the message from it for PR title &amp; description</p>
+        <p>Improved error handling when a repository with no commits is being added</p>
+        <p>Fixes a bug where the application does not terminate correctly under Linux</p>
+      </description>
+    </release>
     <release version="0.10.13" date="2024-02-20">
       <description>
         <p>Add support for moving of commits between virtual branches</p>
