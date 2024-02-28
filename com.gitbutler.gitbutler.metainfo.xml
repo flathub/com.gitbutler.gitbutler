@@ -41,6 +41,12 @@
   </content_rating>  
 
   <releases>
+    <release version="0.10.17" date="2024-02-25">
+      <description>
+        <p>Improves the performance of virtual branch operations (quicker response and lower CPU usage)</p>
+        <p>Large numbers of hunks for a file will only be rendered in the UI after confirmation</p>
+      </description>
+    </release>
     <release version="0.10.16" date="2024-02-23">
       <description>
         <p>Updated user setting design</p>
