@@ -42,7 +42,6 @@
 
   <releases>
     <release version="0.10.13" date="2024-02-20">
-      <url type="details">https://github.com/gitbutlerapp/gitbutler/releases/tag/release%2F0.10.13</url>
       <description>
         <p>Add support for moving of commits between virtual branches</p>
         <p>Fixes an issue where if gitignored files are changing frequently it may prevent changes to non-ignored files to show up in gb</p>
@@ -51,7 +50,6 @@
       </description>
     </release>
     <release version="0.10.12" date="2024-02-20">
-      <url type="details">https://github.com/gitbutlerapp/gitbutler/releases/tag/release%2F0.10.12</url>
       <description>
         <p>Adds the ability to discard entire files from virtual branch lanes</p>
         <p>Fixes a UI bug with the position of the resizer</p>
@@ -67,13 +65,11 @@
       </description>
     </release>
     <release version="0.10.11" date="2024-02-18">
-      <url type="details">https://github.com/gitbutlerapp/gitbutler/releases/tag/release%2F0.10.11</url>
       <description>
         <p>Move comments to a rust FMT approved location</p>
       </description>
     </release>
     <release version="0.10.10" date="2024-02-17">
-      <url type="details">https://github.com/gitbutlerapp/gitbutler/releases/tag/release%2F0.10.10</url>
       <description>
         <p>fix: dont send the content of large text files to the UI as it cant handle it</p>
       </description>
