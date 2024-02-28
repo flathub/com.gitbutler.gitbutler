@@ -41,6 +41,7 @@
   </content_rating>  
 
   <releases>
+    <release version="0.10.17" date="2024-02-25"/>
     <release version="0.10.13" date="2024-02-20">
       <url type="details">https://github.com/gitbutlerapp/gitbutler/releases/tag/release%2F0.10.13</url>
       <description>
