@@ -41,6 +41,7 @@
   </content_rating>  
 
   <releases>
+    <release version="0.10.18" date="2024-02-28"/>
     <release version="0.10.17" date="2024-02-25">
       <description>
         <p>Improves the performance of virtual branch operations (quicker response and lower CPU usage)</p>

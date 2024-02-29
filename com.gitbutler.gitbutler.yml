@@ -1,6 +1,6 @@
 id: com.gitbutler.gitbutler
 runtime: org.gnome.Platform
-runtime-version: "45"
+runtime-version: '45'
 sdk: org.gnome.Sdk
 command: git-butler
 finish-args:
@@ -43,7 +43,7 @@ modules:
             url: https://dotat.at/prog/unifdef/unifdef-2.12.tar.xz
             sha256: 43ce0f02ecdcdc723b2475575563ddb192e988c886d368260bc0a63aee3ac400
         cleanup:
-          - "*"
+          - '*'
 
   - shared-modules/libappindicator/libappindicator-gtk3-12.10.json
 
@@ -56,22 +56,24 @@ modules:
       - install -Dm644 -t /app/share/metainfo com.gitbutler.gitbutler.metainfo.xml
       - install -Dm644 usr/share/applications/git-butler.desktop /app/share/applications/com.gitbutler.gitbutler.desktop
       - |
-          for size in 32x32 128x128 256x256@2; do
-            install -Dm644 usr/share/icons/hicolor/${size}/apps/git-butler.png /app/share/icons/hicolor/${size}/apps/com.gitbutler.gitbutler.png
-          done
-      - desktop-file-edit --set-icon=com.gitbutler.gitbutler --add-category=RevisionControl --set-key=Comment --set-value='The GitButler version control client, backed by Git, powered by Tauri/Rust/Svelte' /app/share/applications/com.gitbutler.gitbutler.desktop
+        for size in 32x32 128x128 256x256@2; do
+          install -Dm644 usr/share/icons/hicolor/${size}/apps/git-butler.png /app/share/icons/hicolor/${size}/apps/com.gitbutler.gitbutler.png
+        done
+      - desktop-file-edit --set-icon=com.gitbutler.gitbutler --add-category=RevisionControl
+        --set-key=Comment --set-value='The GitButler version control client, backed
+        by Git, powered by Tauri/Rust/Svelte' /app/share/applications/com.gitbutler.gitbutler.desktop
     sources:
       - type: file
         dest-filename: git-butler.deb
-        url: https://releases.gitbutler.com/releases/release/0.10.17-665/linux/x86_64/git-butler_0.10.17_amd64.deb
-        sha256: 915227fb99d6a6a0fdc0a4446534d2bc25692267fe7cb5c801dab2e59664b02c
+        url: https://releases.gitbutler.com/releases/release/0.10.18-675/linux/x86_64/git-butler_0.10.18_amd64.deb
+        sha256: 882ddd89cb228f5e0086531ef69311ec5c1e5a786ce8de6118fd12bd18c685a6
         only-arches:
           - x86_64
         x-checker-data:
           type: json
           url: https://app.gitbutler.com/releases
-          version-query: ".version"
-          timestamp-query: ".pub_date"
-          url-query: ".platforms.\"linux-x86_64\".url | sub(\".AppImage.tar.gz\"; \".deb\")"
+          version-query: .version
+          timestamp-query: .pub_date
+          url-query: .platforms."linux-x86_64".url | sub(".AppImage.tar.gz"; ".deb")
       - type: file
         path: com.gitbutler.gitbutler.metainfo.xml
