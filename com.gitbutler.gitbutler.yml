@@ -45,6 +45,11 @@ modules:
             sha256: 43ce0f02ecdcdc723b2475575563ddb192e988c886d368260bc0a63aee3ac400
         cleanup:
           - '*'
+      - name: libbacktrace
+        sources:
+          - type: git
+            url: https://github.com/ianlancetaylor/libbacktrace.git
+            commit: 7ead8c1ea2f4aeafe9c5b9ef8a9461a9ba781aa8
 
   - shared-modules/libappindicator/libappindicator-gtk3-12.10.json
 
