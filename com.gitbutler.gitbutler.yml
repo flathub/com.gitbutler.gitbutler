@@ -49,7 +49,6 @@ modules:
         sources:
           - type: git
             url: https://github.com/ianlancetaylor/libbacktrace.git
-            commit: 7ead8c1ea2f4aeafe9c5b9ef8a9461a9ba781aa8
 
   - shared-modules/libappindicator/libappindicator-gtk3-12.10.json
 
