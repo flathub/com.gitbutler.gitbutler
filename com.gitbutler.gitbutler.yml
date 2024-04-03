@@ -71,8 +71,8 @@ modules:
     sources:
       - type: file
         dest-filename: git-butler.deb
-        url: https://releases.gitbutler.com/releases/release/0.10.28-764/linux/x86_64/git-butler_0.10.28_amd64.deb
-        sha256: 276a8bad89df78481dbb9082f9bb167eed475294fa337c0267ad85a5db8321ba
+        url: https://releases.gitbutler.com/releases/release/0.10.29-791/linux/x86_64/git-butler_0.10.29_amd64.deb
+        sha256: 422722cc4d4f3b8e6db409fd8682b15f962e3dd6bf82ea1dfe72e2bcf78b6045
         only-arches:
           - x86_64
         x-checker-data:
