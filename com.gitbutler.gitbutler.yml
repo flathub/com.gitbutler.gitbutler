@@ -7,10 +7,12 @@ finish-args:
   - --share=ipc
   - --socket=fallback-x11
   - --socket=wayland
+  - --socket=gpg-agent
+  - --socket=ssh-auth
   - --device=dri
   - --share=network
   - --filesystem=~/.ssh:ro
-  - --filesystem=xdg-run/gvfsd
+
 modules:
   - name: webkit2gtk-4.0
     sources:
@@ -50,8 +52,30 @@ modules:
           - type: git
             url: https://github.com/ianlancetaylor/libbacktrace.git
             commit: 7ead8c1ea2f4aeafe9c5b9ef8a9461a9ba781aa8
+  
+  - name: git
+    make-args:
+      - INSTALL_SYMLINKS=1
+      - NO_PERL=YesPlease
+      - NO_TCLTK=YesPlease
+    make-install-args:
+      - INSTALL_SYMLINKS=1
+      - NO_PERL=YesPlease
+      - NO_TCLTK=YesPlease
+    post-install:
+      - find . -type f -name perllocal.pod -delete
+    sources:
+      - type: archive
+        sha256: 5ee8a1c68536094a4f7f9515edc154b12a275b8a57dda4c21ecfbf1afbae2ca3
+        url: https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.46.2.tar.xz
+    x-checker-data:
+      type: html
+      url: https://mirrors.edge.kernel.org/pub/software/scm/git/
+      version-pattern: git-([\d\.-]+).tar.xz
+      url-template: https://mirrors.edge.kernel.org/pub/software/scm/git/git-$version.tar.xz
 
   - shared-modules/libappindicator/libappindicator-gtk3-12.10.json
+  - shared-modules/libsecret/libsecret.json
 
   - name: git-butler
     buildsystem: simple
