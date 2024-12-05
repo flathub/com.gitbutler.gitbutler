@@ -15,8 +15,8 @@ modules:
   - name: webkit2gtk-4.0
     sources:
       - type: archive
-        url: https://webkitgtk.org/releases/webkitgtk-2.46.2.tar.xz
-        sha256: 5aae1c5c0a30d5e9c5831652b6f1bdefc31d75e0ad81cb40185b0aed92ce79b6
+        url: https://webkitgtk.org/releases/webkitgtk-2.46.4.tar.xz
+        sha256: 0eff5f0ab0a2872ec87df62bc32e3289c8af625716ac71e94b298d74e0374176
         x-checker-data:
           type: html
           url: https://webkitgtk.org/releases/
@@ -71,8 +71,8 @@ modules:
     sources:
       - type: file
         dest-filename: git-butler.deb
-        url: https://releases.gitbutler.com/releases/release/0.13.8-1417/linux/x86_64/git-butler_0.13.8_amd64.deb
-        sha256: 59b29ac5b8a13580622e28803d5c679b786c5d341a0b25d77fc74e5cfe23c1de
+        url: https://releases.gitbutler.com/releases/release/0.14.2-1544/linux/x86_64/GitButler_0.14.2_amd64.deb
+        sha256: 48d3083124ad05fa846026bc2dafe51f3393cee3668ec253dad63080fe7c0f28
         only-arches:
           - x86_64
         x-checker-data:
