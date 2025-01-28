@@ -1,0 +1,109 @@
+id: com.gitbutler.app
+runtime: org.gnome.Platform
+runtime-version: '47'
+sdk: org.gnome.Sdk
+command: gitbutler-tauri
+
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.node22
+  - org.freedesktop.Sdk.Extension.rust-nightly
+
+finish-args:
+  - --device=dri
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --share=network
+  - --filesystem=host
+  - --filesystem=xdg-run/gnupg:ro
+  - --filesystem=xdg-run/gvfs
+  - --filesystem=xdg-run/gvfsd
+  - --filesystem=xdg-config/git
+  - --filesystem=xdg-config/gitbutler
+  - --env=XCURSOR_PATH=/run/host/user-share/icons:/run/host/share/icons:~/.icons
+
+  # Required for interacting with git and keyring
+  - --socket=ssh-auth
+  - --socket=gpg-agent
+  - --system-talk-name=org.freedesktop.secrets
+  - --talk-name=org.freedesktop.secrets
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.gnome.keyring.SystemPrompter
+
+separate-locales: false
+modules:
+  - shared-modules/libappindicator/libappindicator-gtk3-12.10.json
+  - name: GitButler
+    sources:
+      - type: git
+        url: https://github.com/gitbutlerapp/gitbutler.git
+        # Update me to bump version
+        commit: bf4d2420558694ec38b284ed253fdd3762f45e88
+      - type: patch
+        path: patches/0001-keyring-linux.patch
+      - node-sources.json
+      - cargo-sources.json
+      - type: file
+        path: com.gitbutler.app.metainfo.xml
+      - type: file
+        path: com.gitbutler.app.desktop
+      - type: dir
+        path: icons/
+      - type: file
+        url: https://github.com/pnpm/pnpm/releases/download/v9.7.1/pnpm-linux-x64
+        dest-filename: pnpm
+        sha256: 7db041074a5479713e8ced6c79b7a2874f957ce566cd6f53caf0c5ba4568fcf6
+        only-arches:
+         - x86_64
+      - type: file
+        url: https://github.com/pnpm/pnpm/releases/download/v9.7.1/pnpm-linux-arm64
+        dest-filename: pnpm
+        sha256: 2625b2095a6722c0265deeec5f7779750c6abae317f30001eb20fba9f092d6cc
+        only-arches:
+         - aarch64
+
+    buildsystem: simple
+    build-options:
+      build-args:
+        - --share=network
+      append-path: /usr/lib/sdk/node22/bin:/usr/lib/sdk/rust-nightly/extra/sdk/rust-nightly/bin:/run/build/GitButler/bin
+      env:
+        - CARGO_HOME=/run/build/gitbutler/cargo
+        - RUST_BACKTRACE=all
+        - TURBO_TELEMETRY_DISABLED=1
+        - TAURI_SIGNING_PRIVATE_KEY=a
+        - TAURI_SIGNING_PRIVATE_KEY_PASSWORD=b
+        - VITE_FLATPAK_ID=com.gitbutler.app
+    build-commands:
+      - chmod 755 pnpm && mkdir bin && mv pnpm bin/
+      - pnpm install --reporter=silent --frozen-lockfile --store-dir ./pnpm-store
+      - cargo fetch --manifest-path Cargo.toml
+
+      # Development
+      # - jq '.version="0.5.1006"' crates/gitbutler-tauri/tauri.conf.json > tauri.conf.json
+      # - cargo build -p gitbutler-git
+      # - pnpm run tauri build --debug --config tauri.conf.json --no-bundle
+
+      # Release
+        # Update me to bump reported version
+      - jq '.version="0.5.1013"' crates/gitbutler-tauri/tauri.conf.nightly.json > crates/gitbutler-tauri/tauri.conf.nightly2.json
+      - cargo build --release -p gitbutler-git
+      - pnpm run tauri build --config crates/gitbutler-tauri/tauri.conf.nightly2.json --no-bundle
+
+      - install -Dm644 -t /app/share/metainfo/ com.gitbutler.app.metainfo.xml
+      - install -Dm755 -t /app/bin/ target/release/gitbutler-tauri
+      - install -Dm755 -t /app/bin/ target/release/gitbutler-git-askpass
+      - install -Dm755 -t /app/bin/ target/release/gitbutler-git-setsid
+      - install -Dm644 -t /app/share/applications/ com.gitbutler.app.desktop
+      - |
+        for size in 32x32 128x128 256x256@2; do
+          install -Dm644 ${size}.png /app/share/icons/hicolor/${size}/apps/com.gitbutler.app.png
+        done
+
+  - name: git
+    make-install-args:
+      - NO_INSTALL_HARDLINKS=1
+    sources:
+      - type: archive
+        url: https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.39.1.tar.xz
+        sha256: 40a38a0847b30c371b35873b3afcf123885dd41ea3ecbbf510efa97f3ce5c161

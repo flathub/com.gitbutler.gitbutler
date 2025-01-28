@@ -1,13 +1,99 @@
-# GitButler Flatpak
-[![GitButler](https://img.shields.io/badge/GitButler-%23B9F4F2?logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB3aWR0aD0iMzkiIGhlaWdodD0iMjgiIHZpZXdCb3g9IjAgMCAzOSAyOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTI1LjIxNDUgMTIuMTk5N0wyLjg3MTA3IDEuMzg5MTJDMS41NDI5NSAwLjc0NjUzMiAwIDEuNzE0MDYgMCAzLjE4OTQ3VjI0LjgxMDVDMCAyNi4yODU5IDEuNTQyOTUgMjcuMjUzNSAyLjg3MTA3IDI2LjYxMDlMMjUuMjE0NSAxNS44MDAzQzI2LjcxOTcgMTUuMDcyMSAyNi43MTk3IDEyLjkyNzkgMjUuMjE0NSAxMi4xOTk3WiIgZmlsbD0iYmxhY2siLz4KPHBhdGggZD0iTTEzLjc4NTUgMTIuMTk5N0wzNi4xMjg5IDEuMzg5MTJDMzcuNDU3MSAwLjc0NjUzMiAzOSAxLjcxNDA2IDM5IDMuMTg5NDdWMjQuODEwNUMzOSAyNi4yODU5IDM3LjQ1NzEgMjcuMjUzNSAzNi4xMjg5IDI2LjYxMDlMMTMuNzg1NSAxNS44MDAzQzEyLjI4MDMgMTUuMDcyMSAxMi4yODAzIDEyLjkyNzkgMTMuNzg1NSAxMi4xOTk3WiIgZmlsbD0idXJsKCNwYWludDBfcmFkaWFsXzMxMF8xMjkpIi8%2BCjxkZWZzPgo8cmFkaWFsR3JhZGllbnQgaWQ9InBhaW50MF9yYWRpYWxfMzEwXzEyOSIgY3g9IjAiIGN5PSIwIiByPSIxIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgZ3JhZGllbnRUcmFuc2Zvcm09InRyYW5zbGF0ZSgxNi41NzAxIDE0KSBzY2FsZSgxOS44NjQxIDE5LjgzODMpIj4KPHN0b3Agb2Zmc2V0PSIwLjMwMTA1NiIgc3RvcC1vcGFjaXR5PSIwIi8%2BCjxzdG9wIG9mZnNldD0iMSIvPgo8L3JhZGlhbEdyYWRpZW50Pgo8L2RlZnM%2BCjwvc3ZnPgo%3D
-)](https://gitbutler.com/) [![Flathub Version](https://img.shields.io/flathub/v/com.gitbutler.gitbutler)](https://flathub.org/apps/com.gitbutler.gitbutler)
+<img align="right" width="300" src="./icons/badge.svg" />
 
-Flatpak repository for [GitButler](https://github.com/gitbutlerapp/gitbutler)
+# ⋈ GitButler Flathub
 
-## Contributing
+This is the flatpak packaging code for the [GitButler](https://github.com/gitbutlerapp/gitbutler) desktop application.
 
-### Build
+## Setup Build Prerequisites
 
-```shell
-flatpak-builder --user --install --force-clean build-dir com.gitbutler.gitbutler.yml
+0. Install [just](https://just.systems/man/en/packages.html) project command
+   runner.
+
+### Automatic
+
+1. Install `flatpak-builder-tools` and `flatpak-builder`
+
+```sh
+$ just install
 ```
+
+2. Generate sources. First positional argument is the path to your cloned
+   `gitbutlerapp/gitbutler` repository
+
+```sh
+$ just sources /opt/gitbutlerapp/gitbutler/
+```
+
+### Manual
+
+We'll need to use the `flatpak-builder-tools` `cargo` as well as `node` builders
+to generate the sources JSON inputs for use in the `flatpak-builder` command.
+
+The goal is to generate the required lock file inputs that match the GitButler
+version defined in the `com.gitbutler.app.yml` `git` source for GitButler (~`:108`).
+
+1. Clone flatpak-builder-tools
+
+```
+git clone https://github.com/flatpak/flatpak-builder-tools
+```
+
+2. Generate node `generated-sources.json`
+
+- Using
+  [pnpm-lock-to-npm-lock](https://github.com/jakedoublev/pnpm-lock-to-npm-lock)
+  to convert our `pnpm-lock.yaml` to something that the flatpak-node-generator
+  can consume, `package-lock.json`.
+- Then
+  [flatpak-node-generator](https://github.com/flatpak/flatpak-builder-tools/tree/master/node)
+  to generate the `generated-sources.json` lock file.
+
+```
+# Generate package-lock.json from our pnpm-lock.yaml
+npx pnpm-lock-to-npm-lock pnpm-lock.yaml
+
+# Run generated package-lock.json through `flatpak-node-generator`
+/home/ndo/.local/bin/flatpak-node-generator npm package-lock.json
+```
+
+3. Generate cargo `cargo-sources.json`
+
+Using [flatpak-cargo-generator](https://github.com/flatpak/flatpak-builder-tools/tree/master/cargo)
+
+```
+cd flatpak-builder-tools/cargo
+python -m venv venv
+source venv/bin/activate
+pip install poetry
+poetry install
+
+python flatpak-cargo-generator.py /opt/gitbutler/gitbutler/Cargo.lock -o cargo-sources.json
+```
+
+## Building
+
+After you've got the prerequisites installed and the cargo and node source files
+generated, we can build the actual flatpak.
+
+```
+$ just flatpak 
+
+# or to auto install after building: 
+$ just flatpak --install 
+```
+
+If you used installed, you can now run the flatpak via `flatpak run com.gitbutler.app`, if you're not building for local consumption, continue on to the next step.
+
+## Bundling
+
+Finally, to export an archive for sharing, you can generate a `com.gitbutler.app.flatpak` file in the root of the repository.
+
+```
+$ just bundle
+```
+
+## License
+
+MIT
+
+
