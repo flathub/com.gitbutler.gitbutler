@@ -30,7 +30,7 @@ We'll need to use the `flatpak-builder-tools` `cargo` as well as `node` builders
 to generate the sources JSON inputs for use in the `flatpak-builder` command.
 
 The goal is to generate the required lock file inputs that match the GitButler
-version defined in the `com.gitbutler.app.yml` `git` source for GitButler (~`:108`).
+version defined in the `com.gitbutler.gitbutler.yml` `git` source for GitButler (~`:108`).
 
 1. Clone flatpak-builder-tools
 
@@ -82,11 +82,11 @@ $ just flatpak
 $ just flatpak --install 
 ```
 
-If you used installed, you can now run the flatpak via `flatpak run com.gitbutler.app`, if you're not building for local consumption, continue on to the next step.
+If you used installed, you can now run the flatpak via `flatpak run com.gitbutler.gitbutler`, if you're not building for local consumption, continue on to the next step.
 
 ## Bundling
 
-Finally, to export an archive for sharing, you can generate a `com.gitbutler.app.flatpak` file in the root of the repository.
+Finally, to export an archive for sharing, you can generate a `com.gitbutler.gitbutler.flatpak` file in the root of the repository.
 
 ```
 $ just bundle

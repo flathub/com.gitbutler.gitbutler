@@ -1,4 +1,4 @@
-flatpak_id := "com.gitbutler.app"
+flatpak_id := "com.gitbutler.gitbutler"
 
 default:
 	just --list
