@@ -62,8 +62,8 @@ modules:
 
     buildsystem: simple
     build-options:
-      build-args:
-        - --share=network
+      # build-args:
+      #   - --share=network
       append-path: /usr/lib/sdk/node22/bin:/usr/lib/sdk/rust-nightly/extra/sdk/rust-nightly/bin:/run/build/GitButler/bin
       env:
         - CARGO_HOME=/run/build/gitbutler/cargo
@@ -71,7 +71,7 @@ modules:
         - TURBO_TELEMETRY_DISABLED=1
         - TAURI_SIGNING_PRIVATE_KEY=a
         - TAURI_SIGNING_PRIVATE_KEY_PASSWORD=b
-        - VITE_FLATPAK_ID=com.gitbutler.gitbutler
+        - PUBLIC_FLATPAK_ID=com.gitbutler.app
     build-commands:
       - chmod 755 pnpm && mkdir bin && mv pnpm bin/
       - pnpm install --reporter=silent --frozen-lockfile --store-dir ./pnpm-store
