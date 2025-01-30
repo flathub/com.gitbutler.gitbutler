@@ -48,22 +48,20 @@ modules:
       - type: dir
         path: icons/
       - type: file
-        url: https://github.com/pnpm/pnpm/releases/download/v9.7.1/pnpm-linux-x64
+        url: https://github.com/pnpm/pnpm/releases/download/v9.11.0/pnpm-linux-x64
         dest-filename: pnpm
-        sha256: 7db041074a5479713e8ced6c79b7a2874f957ce566cd6f53caf0c5ba4568fcf6
+        sha256: 0cd1726ab8a10468f6bb70a4ae406c13b9a996e1c0d481a994029d88a3d0908f
         only-arches:
          - x86_64
       - type: file
-        url: https://github.com/pnpm/pnpm/releases/download/v9.7.1/pnpm-linux-arm64
+        url: https://github.com/pnpm/pnpm/releases/download/v9.11.0/pnpm-linux-arm64
         dest-filename: pnpm
-        sha256: 2625b2095a6722c0265deeec5f7779750c6abae317f30001eb20fba9f092d6cc
+        sha256: 9884e32690d42feac7a0eca737c61de061e9d330ff048d3dfe972fc08857081c
         only-arches:
          - aarch64
 
     buildsystem: simple
     build-options:
-      # build-args:
-      #   - --share=network
       append-path: /usr/lib/sdk/node22/bin:/usr/lib/sdk/rust-nightly/extra/sdk/rust-nightly/bin:/run/build/GitButler/bin
       env:
         - CARGO_HOME=/run/build/gitbutler/cargo
@@ -74,7 +72,7 @@ modules:
         - PUBLIC_FLATPAK_ID=com.gitbutler.app
     build-commands:
       - chmod 755 pnpm && mkdir bin && mv pnpm bin/
-      - pnpm install --offline --frozen-lockfile
+      - pnpm install --prefer-offline --frozen-lockfile
       - cargo fetch --manifest-path Cargo.toml
 
       # Development
