@@ -72,8 +72,8 @@ modules:
         - PUBLIC_FLATPAK_ID=com.gitbutler.app
     build-commands:
       - chmod 755 pnpm && mkdir bin && mv pnpm bin/
-      - pnpm install --prefer-offline --frozen-lockfile
-      - cargo fetch --manifest-path Cargo.toml
+      - pnpm install --offline --frozen-lockfile
+      - cargo fetch --offline --manifest-path Cargo.toml
 
       # Development
       # - jq '.version="0.5.1006"' crates/gitbutler-tauri/tauri.conf.json > tauri.conf.json
@@ -81,7 +81,7 @@ modules:
       # - pnpm run tauri build --debug --config tauri.conf.json --no-bundle
 
       # Release
-        # Update me to bump reported version
+      # Update me to bump reported version
       - jq '.version="0.5.1013"' crates/gitbutler-tauri/tauri.conf.nightly.json > crates/gitbutler-tauri/tauri.conf.nightly2.json
       - cargo build --release -p gitbutler-git
       - pnpm run tauri build --config crates/gitbutler-tauri/tauri.conf.nightly2.json --no-bundle
