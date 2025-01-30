@@ -74,7 +74,7 @@ modules:
         - PUBLIC_FLATPAK_ID=com.gitbutler.app
     build-commands:
       - chmod 755 pnpm && mkdir bin && mv pnpm bin/
-      - pnpm install --prefer-offline --frozen-lockfile
+      - pnpm install --offline --frozen-lockfile
       - cargo fetch --manifest-path Cargo.toml
 
       # Development
