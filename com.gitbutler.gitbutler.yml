@@ -39,8 +39,10 @@ modules:
         commit: bf4d2420558694ec38b284ed253fdd3762f45e88
       - type: patch
         path: patches/0001-keyring-linux.patch
-      - node-sources.json
       - cargo-sources.json
+      - type: archive
+        path: pnpm-store.tar.gz
+        strip-components: 0
       - type: file
         path: com.gitbutler.gitbutler.metainfo.xml
       - type: file
@@ -72,7 +74,7 @@ modules:
         - PUBLIC_FLATPAK_ID=com.gitbutler.app
     build-commands:
       - chmod 755 pnpm && mkdir bin && mv pnpm bin/
-      - pnpm install --offline --frozen-lockfile
+      - pnpm install --offline --frozen-lockfile --store-dir pnpm-store
       - cargo fetch --offline --manifest-path Cargo.toml
 
       # Development
@@ -83,7 +85,7 @@ modules:
       # Release
       # Update me to bump reported version
       - jq '.version="0.5.1013"' crates/gitbutler-tauri/tauri.conf.nightly.json > crates/gitbutler-tauri/tauri.conf.nightly2.json
-      - cargo build --release -p gitbutler-git
+      - cargo build --offline --release -p gitbutler-git
       - pnpm run tauri build --config crates/gitbutler-tauri/tauri.conf.nightly2.json --no-bundle
 
       - install -Dm644 -t /app/share/metainfo/ com.gitbutler.gitbutler.metainfo.xml

@@ -17,12 +17,14 @@ install:
 
 set positional-arguments := true
 [group('setup')]
-[doc('Generate cargo and node sources files')]
+[doc('Generate cargo dependency sources and pnpm stores')]
 sources *GITBUTLER_DIR:
 	python flatpak-cargo-generator.py -o cargo-sources.json {{GITBUTLER_DIR}}/Cargo.lock
-	# Need to convert pnpm lock file to npm package-lock.json first
-	cd {{GITBUTLER_DIR}} && pnpm dlx pnpm-lock-to-npm-lock pnpm-lock.yaml
-	flatpak-node-generator --no-requests-cache -r -o node-sources.json npm {{GITBUTLER_DIR}}/package-lock.json
+	# For platform-specific dependencies
+	cat {{GITBUTLER_DIR}}/package.json | jq '.pnpm.supportedArchitectures += { "os": ["linux"], "cpu": ["x64", "arm64"] }' | sponge {{GITBUTLER_DIR}}/package.json
+	pnpm install --frozen-lockfile --dir {{GITBUTLER_DIR}} --store-dir pnpm-store
+	mv {{GITBUTLER_DIR}}/pnpm-store .
+	tar -czf pnpm-store.tgz pnpm-store
 	# git submodule update --remote --merge
 
 [group('build')]
@@ -45,5 +47,5 @@ lint:
 [group('dev')]
 [doc('Delete build artifacts')]
 clean:
-	rm -rf .flatpak-builder builddir
+	rm -rf .flatpak-builder builddir pnpm-store
 	# flatpak remove {{ flatpak_id }} -y --delete-data
