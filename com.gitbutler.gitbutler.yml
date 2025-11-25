@@ -1,8 +1,11 @@
 id: com.gitbutler.gitbutler
 runtime: org.gnome.Platform
-runtime-version: '47'
+runtime-version: '49'
 sdk: org.gnome.Sdk
-command: git-butler
+command: gitbutler-tauri
+rename-desktop-file: GitButler.desktop
+rename-icon: gitbutler-tauri
+
 finish-args:
   - --share=ipc
   - --socket=fallback-x11
@@ -11,75 +14,58 @@ finish-args:
   - --share=network
   - --filesystem=~/.ssh:ro
   - --filesystem=xdg-run/gvfsd
+  - --talk-name=org.freedesktop.secrets
+
 modules:
-  - name: webkit2gtk-4.0
+  - name: git
+    cleanup:
+      - /share
+    make-args:
+      - NO_PERL=1
+      - NO_TCLTK=1
+    make-install-args:
+      - INSTALL_SYMLINKS=1
+      - NO_PERL=1
+      - NO_TCLTK=1
     sources:
       - type: archive
-        url: https://webkitgtk.org/releases/webkitgtk-2.46.2.tar.xz
-        sha256: 5aae1c5c0a30d5e9c5831652b6f1bdefc31d75e0ad81cb40185b0aed92ce79b6
+        url: https://www.kernel.org/pub/software/scm/git/git-2.52.0.tar.gz
+        sha256: 6880cb1e737e26f81cf7db9957ab2b5bb2aa1490d87619480b860816e0c10c32
         x-checker-data:
-          type: html
-          url: https://webkitgtk.org/releases/
-          version-pattern: LATEST-STABLE-(\d[\.\d]+\d)
-          url-template: https://webkitgtk.org/releases/webkitgtk-$version.tar.xz
-    buildsystem: cmake-ninja
-    config-opts:
-      - -DPORT=GTK
-      - -DENABLE_BUBBLEWRAP_SANDBOX=OFF
-      - -DCMAKE_BUILD_TYPE=Release
-      - -DENABLE_DOCUMENTATION=OFF
-      - -DENABLE_MINIBROWSER=OFF
-      - -DENABLE_WEBDRIVER=OFF
-      - -DENABLE_GAMEPAD=OFF
-      - -DUSE_SOUP2=ON
-      - -DUSE_GTK4=OFF
-    modules:
-      - shared-modules/libsoup/libsoup-2.4.json
-      - name: unifdef
-        no-autogen: true
-        make-install-args:
-          - prefix=${FLATPAK_DEST}
-        sources:
-          - type: archive
-            url: https://dotat.at/prog/unifdef/unifdef-2.12.tar.xz
-            sha256: 43ce0f02ecdcdc723b2475575563ddb192e988c886d368260bc0a63aee3ac400
-        cleanup:
-          - '*'
-      - name: libbacktrace
-        sources:
-          - type: git
-            url: https://github.com/ianlancetaylor/libbacktrace.git
-            commit: 7ead8c1ea2f4aeafe9c5b9ef8a9461a9ba781aa8
+          type: anitya
+          project-id: 5350
+          url-template: https://www.kernel.org/pub/software/scm/git/git-$version.tar.gz
 
-  - shared-modules/libappindicator/libappindicator-gtk3-12.10.json
-
-  - name: git-butler
+  - name: gitbutler
     buildsystem: simple
     build-commands:
-      - ar x git-butler.deb
+      - ar x GitButler.deb
       - tar xf data.tar.gz
-      - install -Dm755 -t /app/bin usr/bin/git-butler
+      - mv usr/bin/* /app/bin
+      - mv usr/share/* /app/share
       - install -Dm644 -t /app/share/metainfo com.gitbutler.gitbutler.metainfo.xml
-      - install -Dm644 usr/share/applications/git-butler.desktop /app/share/applications/com.gitbutler.gitbutler.desktop
-      - |
-        for size in 32x32 128x128 256x256@2; do
-          install -Dm644 usr/share/icons/hicolor/${size}/apps/git-butler.png /app/share/icons/hicolor/${size}/apps/com.gitbutler.gitbutler.png
-        done
-      - desktop-file-edit --set-icon=com.gitbutler.gitbutler --add-category=RevisionControl
-        --set-key=Comment --set-value='The GitButler version control client, backed
-        by Git, powered by Tauri/Rust/Svelte' /app/share/applications/com.gitbutler.gitbutler.desktop
     sources:
       - type: file
-        dest-filename: git-butler.deb
-        url: https://releases.gitbutler.com/releases/release/0.13.8-1417/linux/x86_64/git-butler_0.13.8_amd64.deb
-        sha256: 59b29ac5b8a13580622e28803d5c679b786c5d341a0b25d77fc74e5cfe23c1de
-        only-arches:
-          - x86_64
+        only-arches: [x86_64]
+        url: https://releases.gitbutler.com/releases/release/0.18.0-2626/linux/x86_64/GitButler_0.18.0_amd64.deb
+        sha256: 74bbd378a5eda175d1c1cd2f111d905857af39d43ef5ffcf0c600814011087b6
+        dest-filename: GitButler.deb
         x-checker-data:
           type: json
           url: https://app.gitbutler.com/releases
           version-query: .version
           timestamp-query: .pub_date
           url-query: .platforms."linux-x86_64".url | sub(".AppImage.tar.gz"; ".deb")
+      - type: file
+        only-arches: [aarch64]
+        dest-filename: GitButler.deb
+        url: https://releases.gitbutler.com/releases/release/0.18.0-2626/linux/aarch64/GitButler_0.18.0_arm64.deb
+        sha256: c01a56b312597e85d90a0a33c60fab726581946d1b09e26a76c11a102645ec8f
+        x-checker-data:
+          type: json
+          url: https://app.gitbutler.com/releases
+          version-query: .version
+          timestamp-query: .pub_date
+          url-query: .platforms."linux-aarch64".url | sub(".AppImage.tar.gz"; ".deb")
       - type: file
         path: com.gitbutler.gitbutler.metainfo.xml
