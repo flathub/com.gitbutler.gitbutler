@@ -12,8 +12,11 @@ finish-args:
   - --socket=wayland
   - --device=dri
   - --share=network
-  - --filesystem=~/.ssh:ro
+  - --socket=gpg-agent
+  - --socket=ssh-auth
+  - --filesystem=host
   - --filesystem=xdg-run/gvfsd
+  - --own-name=com.gitbutler.app
   - --talk-name=org.freedesktop.secrets
 
 modules:
