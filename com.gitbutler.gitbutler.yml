@@ -45,6 +45,7 @@ modules:
       - ar x GitButler.deb
       - tar xf data.tar.gz
       - mv usr/bin/* /app/bin
+      - ln -s gitbutler-tauri /app/bin/but
       - mv usr/share/* /app/share
       - install -Dm644 -t /app/share/metainfo com.gitbutler.gitbutler.metainfo.xml
     sources:
