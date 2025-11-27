@@ -230,4 +230,9 @@
   <provides>
     <binary>git-butler</binary>
   </provides>
+  <keywords>
+    <keyword>branch management tool</keyword>
+    <keyword>git client</keyword>
+    <keyword>version control system</keyword>
+  </keywords>
 </component>
