@@ -51,25 +51,23 @@ modules:
     sources:
       - type: file
         only-arches: [x86_64]
-        url: https://releases.gitbutler.com/releases/release/0.18.0-2626/linux/x86_64/GitButler_0.18.0_amd64.deb
-        sha256: 74bbd378a5eda175d1c1cd2f111d905857af39d43ef5ffcf0c600814011087b6
+        url: https://releases.gitbutler.com/releases/release/0.18.2-2660/linux/x86_64/GitButler_0.18.2_amd64.deb
+        sha256: c02b748bec3ffeda489e975a8209c05a3ae63f77bc2e45eae113eda4b587db1b
         dest-filename: GitButler.deb
         x-checker-data:
           type: json
-          url: https://app.gitbutler.com/releases
-          version-query: .version
-          timestamp-query: .pub_date
-          url-query: .platforms."linux-x86_64".url | sub(".AppImage.tar.gz"; ".deb")
+          url: https://app.gitbutler.com/api/downloads?channel=release
+          version-query: .[0].version
+          url-query: .[0].builds[].url | select(endswith("amd64.deb"))
       - type: file
         only-arches: [aarch64]
         dest-filename: GitButler.deb
-        url: https://releases.gitbutler.com/releases/release/0.18.0-2626/linux/aarch64/GitButler_0.18.0_arm64.deb
-        sha256: c01a56b312597e85d90a0a33c60fab726581946d1b09e26a76c11a102645ec8f
+        url: https://releases.gitbutler.com/releases/release/0.18.2-2660/linux/aarch64/GitButler_0.18.2_arm64.deb
+        sha256: da1ead73a12e257dc1a12f2ef746632ae46c3c48d6b661ae9250a016ac4476ca
         x-checker-data:
           type: json
-          url: https://app.gitbutler.com/releases
-          version-query: .version
-          timestamp-query: .pub_date
-          url-query: .platforms."linux-aarch64".url | sub(".AppImage.tar.gz"; ".deb")
+          url: https://app.gitbutler.com/api/downloads?channel=release
+          version-query: .[0].version
+          url-query: .[0].builds[].url | select(endswith("arm64.deb"))
       - type: file
         path: com.gitbutler.gitbutler.metainfo.xml
