@@ -47,7 +47,6 @@ modules:
       - mv usr/bin/* /app/bin
       - ln -s gitbutler-tauri /app/bin/but
       - mv usr/share/* /app/share
-      - install -Dm644 -t /app/share/metainfo com.gitbutler.gitbutler.metainfo.xml
     sources:
       - type: file
         only-arches: [x86_64]
@@ -69,5 +68,3 @@ modules:
           url: https://app.gitbutler.com/api/downloads?channel=release
           version-query: .[0].version
           url-query: .[0].builds[].url | select(endswith("arm64.deb"))
-      - type: file
-        path: com.gitbutler.gitbutler.metainfo.xml
