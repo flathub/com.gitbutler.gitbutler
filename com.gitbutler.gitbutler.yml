@@ -50,8 +50,8 @@ modules:
     sources:
       - type: file
         only-arches: [x86_64]
-        url: https://releases.gitbutler.com/releases/release/0.18.4-2771/linux/x86_64/GitButler_0.18.4_amd64.deb
-        sha256: 5f6a29e0f387d12090651ad7b9894dff7f6deb772b7b31ab708dec7fad01f901
+        url: https://releases.gitbutler.com/releases/release/0.18.5-2775/linux/x86_64/GitButler_0.18.5_amd64.deb
+        sha256: 311b12457af80fb924261e7c5702404545e4e70fff5b56bc6fdf2bfbeb5a500e
         dest-filename: GitButler.deb
         x-checker-data:
           type: json
@@ -61,8 +61,8 @@ modules:
       - type: file
         only-arches: [aarch64]
         dest-filename: GitButler.deb
-        url: https://releases.gitbutler.com/releases/release/0.18.4-2771/linux/aarch64/GitButler_0.18.4_arm64.deb
-        sha256: b2e00cc2fadc4ccc9b0dee3a87922fe7c7769e5783e077688123c3d668f2733f
+        url: https://releases.gitbutler.com/releases/release/0.18.5-2775/linux/aarch64/GitButler_0.18.5_arm64.deb
+        sha256: acede2bc8ef1af40d046d5fbc1ea2191fef11d586f0a5c38e5289b7ee7a97c70
         x-checker-data:
           type: json
           url: https://app.gitbutler.com/api/downloads?channel=release
