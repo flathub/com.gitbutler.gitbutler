@@ -49,8 +49,8 @@ modules:
     sources:
       - type: file
         only-arches: [x86_64]
-        url: https://releases.gitbutler.com/releases/release/0.19.11-3038/linux/x86_64/GitButler_0.19.11_amd64.deb
-        sha256: 5f135649a9b1c0c4506f82422dbde4ca34fec390912771331990ea66ccb4da1f
+        url: https://releases.gitbutler.com/releases/release/0.19.12-3040/linux/x86_64/GitButler_0.19.12_amd64.deb
+        sha256: 9a06ee3fced1e17d6ff674bf9002e91811161f7d243d82e5b0df43a43bcecd25
         dest-filename: GitButler.deb
         x-checker-data:
           type: json
@@ -59,8 +59,8 @@ modules:
           url-query: .[0].builds[].url | select(endswith("amd64.deb"))
       - type: file
         only-arches: [aarch64]
-        url: https://releases.gitbutler.com/releases/release/0.19.11-3038/linux/aarch64/GitButler_0.19.11_arm64.deb
-        sha256: 7812fcdc8c980db023a2b33d409c5b3b6cf3cee14839a2884feef5db0ab77012
+        url: https://releases.gitbutler.com/releases/release/0.19.12-3040/linux/aarch64/GitButler_0.19.12_arm64.deb
+        sha256: b7fba0ae03eb571a3cdc480f47733dea08e84945b3f09c03beab7b1dbcfbbb0c
         dest-filename: GitButler.deb
         x-checker-data:
           type: json
