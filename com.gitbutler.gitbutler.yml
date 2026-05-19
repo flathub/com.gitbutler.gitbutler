@@ -5,6 +5,8 @@ sdk: org.gnome.Sdk
 command: gitbutler-tauri
 rename-desktop-file: GitButler.desktop
 rename-icon: gitbutler-tauri
+tags: 
+  - proprietary
 
 finish-args:
   - --share=ipc
