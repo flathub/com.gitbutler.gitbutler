@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.gitbutler.gitbutler</id>
+  <metadata_license>FSFAP</metadata_license>
+  <project_license>LicenseRef-FSL-1.1-MIT=https://github.com/gitbutlerapp/gitbutler/blob/master/LICENSE.md</project_license>
+  <name>GitButler</name>
+  <summary>Git, finally designed for humans</summary>
+  <developer id="com.gitbutler">
+    <name>GitButler Inc.</name>
+  </developer>
+  <description>
+    <p>
+      GitButler is the Git-backed change management tool for modern, AI coding workflows.
+      Parallel and stacked branches, unlimited undo, agent integrations, and more. It's Git, refined.
+    </p>
+  </description>
+  <launchable type="desktop-id">com.gitbutler.gitbutler.desktop</launchable>
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-info">mild</content_attribute>
+  </content_rating>
+  <url type="homepage">https://gitbutler.com</url>
+  <url type="bugtracker">https://github.com/gitbutlerapp/gitbutler/issues</url>
+  <url type="vcs-browser">https://github.com/gitbutlerapp/gitbutler</url>
+  <url type="contact">https://docs.gitbutler.com/community/contact-us</url>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://gitbutler.com/images/app-preview-light.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.19.13" date="2026-05-19">
+      <url>https://github.com/gitbutlerapp/gitbutler/releases/tag/release%2F0.19.13</url>
+    </release>
+   </releases>
+</component>
