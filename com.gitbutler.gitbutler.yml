@@ -2,6 +2,8 @@ id: com.gitbutler.gitbutler
 runtime: org.gnome.Platform
 runtime-version: '49'
 sdk: org.gnome.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.rust-stable
 command: gitbutler-tauri
 rename-desktop-file: GitButler.desktop
 rename-icon: gitbutler-tauri
@@ -21,6 +23,8 @@ finish-args:
 
 modules:
   - name: git
+    build-options:
+      append-path: /usr/lib/sdk/rust-stable/bin
     cleanup:
       - /share
     make-args:
@@ -32,8 +36,8 @@ modules:
       - NO_TCLTK=1
     sources:
       - type: archive
-        url: https://www.kernel.org/pub/software/scm/git/git-2.54.0.tar.gz
-        sha256: 45e8107643a44e3ce46f5665beb35af3932fb0d70017687905ab5d4e3aafa8eb
+        url: https://www.kernel.org/pub/software/scm/git/git-2.55.0.tar.gz
+        sha256: 0842dc384a23ac33ba3e570c4f3a8ded85963ee4713b1cd21153c3db41813d1e
         x-checker-data:
           type: anitya
           project-id: 5350
@@ -49,8 +53,8 @@ modules:
     sources:
       - type: file
         only-arches: [x86_64]
-        url: https://releases.gitbutler.com/releases/release/0.20.4-3116/linux/x86_64/GitButler_0.20.4_amd64.deb
-        sha256: b8222cc61802cc748372067e2306d766cdb5178e7f84fd7606adee12689f7f70
+        url: https://releases.gitbutler.com/releases/release/0.21.0-3133/linux/x86_64/GitButler_0.21.0_amd64.deb
+        sha256: f47c123e6d23644db516540d6a8cdd2abdd9ab1a0d32dd7783e111513c3203bd
         dest-filename: GitButler.deb
         x-checker-data:
           type: json
@@ -59,8 +63,8 @@ modules:
           url-query: .[0].builds[].url | select(endswith("amd64.deb"))
       - type: file
         only-arches: [aarch64]
-        url: https://releases.gitbutler.com/releases/release/0.20.4-3116/linux/aarch64/GitButler_0.20.4_arm64.deb
-        sha256: b1fb80b7b4b20f6036ef830ab0773cc5cb5655b85bb1ea55c706c0555e31ca3c
+        url: https://releases.gitbutler.com/releases/release/0.21.0-3133/linux/aarch64/GitButler_0.21.0_arm64.deb
+        sha256: a289da37d4a5b103c438ea48d9f35beec74c89ebaa5f4ae83d2e76db44e4b12c
         dest-filename: GitButler.deb
         x-checker-data:
           type: json
