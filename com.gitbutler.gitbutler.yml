@@ -3,6 +3,7 @@ runtime: org.gnome.Platform
 runtime-version: '50'
 sdk: org.gnome.Sdk
 sdk-extensions:
+  - org.freedesktop.Sdk.Extension.node26
   - org.freedesktop.Sdk.Extension.rust-stable
 command: gitbutler-tauri
 rename-desktop-file: GitButler.desktop
@@ -21,10 +22,11 @@ finish-args:
   - --own-name=com.gitbutler.app
   - --talk-name=org.freedesktop.secrets
 
+build-options:
+  append-path: /usr/lib/sdk/rust-stable/bin
+
 modules:
   - name: git
-    build-options:
-      append-path: /usr/lib/sdk/rust-stable/bin
     cleanup:
       - /share
     make-args:
@@ -45,29 +47,30 @@ modules:
 
   - name: gitbutler
     buildsystem: simple
+    build-options:
+      append-path: /usr/lib/sdk/node26/bin:/run/build/gitbutler/pnpm/bin
+      env:
+        CARGO_HOME: /run/build/gitbutler/cargo
+        VERSION: 0.22.0
     build-commands:
-      - ar x GitButler.deb
-      - tar xf data.tar.gz
-      - mv usr/bin/* /app/bin
-      - mv usr/share/* /app/share
+      - ln -s pnpm.cjs pnpm/bin/pnpm
+      - pnpm install --offline
+      - pnpm tauri build --features builtin-but,disable-auto-updates,packaged-but-distribution --config "$(jq -c --arg version "$VERSION" '.version = $version | .bundle.externalBin = ["gitbutler-git-askpass"] | .bundle.createUpdaterArtifacts = false' crates/gitbutler-tauri/tauri.conf.release.json)" --bundles deb
+      - mv target/tauri/release/bundle/deb/GitButler*/data/usr/bin/* /app/bin
+      - ln -s gitbutler-tauri /app/bin/but
+      - mv target/tauri/release/bundle/deb/GitButler*/data/usr/share/* /app/share
     sources:
-      - type: file
-        only-arches: [x86_64]
-        url: https://releases.gitbutler.com/releases/release/0.22.0-3180/linux/x86_64/GitButler_0.22.0_amd64.deb
-        sha256: 470beafa2dc1e448bfb0c53794adb36cd48c6de3e760c6f03bb2838582b97a03
-        dest-filename: GitButler.deb
+      - type: git
+        url: https://github.com/gitbutlerapp/gitbutler.git
+        tag: release/0.22.0
+        commit: 73b73c2eca4a048b7759e9798cc8073627540af0
         x-checker-data:
           type: json
-          url: https://app.gitbutler.com/api/downloads?channel=release
-          version-query: .[0].version
-          url-query: .[0].builds[].url | select(endswith("amd64.deb"))
-      - type: file
-        only-arches: [aarch64]
-        url: https://releases.gitbutler.com/releases/release/0.22.0-3180/linux/aarch64/GitButler_0.22.0_arm64.deb
-        sha256: 7f0d6c7892cd5f5d6a65e00f0759c79a90fdc18b1c8bee814cb560589ff829b4
-        dest-filename: GitButler.deb
-        x-checker-data:
-          type: json
-          url: https://app.gitbutler.com/api/downloads?channel=release
-          version-query: .[0].version
-          url-query: .[0].builds[].url | select(endswith("arm64.deb"))
+          url: https://api.github.com/repos/gitbutlerapp/gitbutler/releases/latest
+          tag-query: .tag_name
+      - type: archive
+        url: https://registry.npmjs.org/pnpm/-/pnpm-10.20.0.tgz
+        sha256: 47a3352808501b8d1ef20112273b6a5dcfa53d28a55bcce36d268e878bd6bfe9
+        dest: pnpm
+      - cargo-sources.json
+      - node-sources.json
