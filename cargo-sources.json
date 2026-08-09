@@ -3045,24 +3045,6 @@
         "dest-filename": ".cargo-checksum.json"
     },
     {
-        "type": "shell",
-        "commands": [
-            "cp -r --reflink=auto \"flatpak-cargo/git/notify-978fe71/file-id\" \"cargo/vendor/file-id\""
-        ]
-    },
-    {
-        "type": "inline",
-        "contents": "[package]\nname = \"file-id\"\nversion = \"0.2.3\"\ndescription = \"Utility for reading inode numbers (Linux, MacOS) and file IDs (Windows)\"\ndocumentation = \"https://docs.rs/notify\"\nreadme = \"README.md\"\nlicense = \"MIT OR Apache-2.0\"\nkeywords = [\"filesystem\", \"inode\", \"file\", \"index\"]\ncategories = [\"filesystem\"]\nauthors = [\"Daniel Faust <hessijames@gmail.com>\"]\nrust-version = \"1.77\"\nedition = \"2021\"\nhomepage = \"https://github.com/notify-rs/notify\"\nrepository = \"https://github.com/notify-rs/notify.git\"\n\n[[bin]]\nname = \"file-id\"\npath = \"bin/file_id.rs\"\n\n[dependencies.serde]\noptional = true\nversion = \"1.0.89\"\nfeatures = [\"derive\"]\n\n[target.\"cfg(windows)\".dependencies.windows-sys]\nfeatures = [\"Win32_Storage_FileSystem\", \"Win32_Foundation\"]\nversion = \"0.60.1\"\n\n[dev-dependencies]\ntempfile = \"3.10.0\"\n",
-        "dest": "cargo/vendor/file-id",
-        "dest-filename": "Cargo.toml"
-    },
-    {
-        "type": "inline",
-        "contents": "{\"package\": null, \"files\": {}}",
-        "dest": "cargo/vendor/file-id",
-        "dest-filename": ".cargo-checksum.json"
-    },
-    {
         "type": "archive",
         "archive-type": "tar-gzip",
         "url": "https://static.crates.io/crates/filedescriptor/filedescriptor-0.8.3.crate",
