@@ -55,15 +55,18 @@ modules:
     build-commands:
       - ln -s pnpm.cjs pnpm/bin/pnpm
       - pnpm install --offline
-      - pnpm tauri build --features builtin-but,disable-auto-updates,packaged-but-distribution --config "$(jq -c --arg version "$VERSION" '.version = $version | .bundle.externalBin = ["gitbutler-git-askpass"] | .bundle.createUpdaterArtifacts = false' crates/gitbutler-tauri/tauri.conf.release.json)" --bundles deb
+      - pnpm tauri build --features builtin-but,disable-auto-updates,packaged-but-distribution
+        --config "$(jq -c --arg version "$VERSION" '.version = $version | .bundle.externalBin
+        = ["gitbutler-git-askpass"] | .bundle.createUpdaterArtifacts = false' crates/gitbutler-tauri/tauri.conf.release.json)"
+        --bundles deb
       - mv target/tauri/release/bundle/deb/GitButler*/data/usr/bin/* /app/bin
       - ln -s gitbutler-tauri /app/bin/but
       - mv target/tauri/release/bundle/deb/GitButler*/data/usr/share/* /app/share
     sources:
       - type: git
         url: https://github.com/gitbutlerapp/gitbutler.git
-        tag: release/0.22.0
-        commit: 73b73c2eca4a048b7759e9798cc8073627540af0
+        tag: release/0.22.3
+        commit: 0ba35dc675c0d0eebcf2e1d5e114b73d46019942
         x-checker-data:
           type: json
           url: https://api.github.com/repos/gitbutlerapp/gitbutler/releases/latest
