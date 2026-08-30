@@ -3,7 +3,7 @@ runtime: org.gnome.Platform
 runtime-version: '50'
 sdk: org.gnome.Sdk
 sdk-extensions:
-  - org.freedesktop.Sdk.Extension.node26
+  - org.freedesktop.Sdk.Extension.node24
   - org.freedesktop.Sdk.Extension.rust-stable
 command: gitbutler-tauri
 rename-desktop-file: GitButler.desktop
@@ -48,10 +48,10 @@ modules:
   - name: gitbutler
     buildsystem: simple
     build-options:
-      append-path: /usr/lib/sdk/node26/bin:/run/build/gitbutler/pnpm/bin
+      append-path: /usr/lib/sdk/node24/bin:/run/build/gitbutler/pnpm/bin
       env:
         CARGO_HOME: /run/build/gitbutler/cargo
-        VERSION: 0.22.0
+        VERSION: 0.22.3
     build-commands:
       - ln -s pnpm.cjs pnpm/bin/pnpm
       - pnpm install --offline
