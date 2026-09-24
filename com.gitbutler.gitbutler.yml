@@ -51,6 +51,7 @@ modules:
       append-path: /usr/lib/sdk/node24/bin:/run/build/gitbutler/pnpm/bin
       env:
         CARGO_HOME: /run/build/gitbutler/cargo
+        CHANNEL: release
         VERSION: 0.22.3
     build-commands:
       - ln -s pnpm.cjs pnpm/bin/pnpm
