@@ -48,14 +48,19 @@ modules:
   - name: gitbutler
     buildsystem: simple
     build-options:
-      append-path: /usr/lib/sdk/node24/bin:/run/build/gitbutler/pnpm/bin
+      append-path: /usr/lib/sdk/node24/bin:/run/build/gitbutler/bin
       env:
         CARGO_HOME: /run/build/gitbutler/cargo
+        CARGO_NET_OFFLINE: 'true'
+        PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
         CHANNEL: release
-        VERSION: 0.22.3
+        VERSION: 0.23.1
     build-commands:
-      - ln -s pnpm.cjs pnpm/bin/pnpm
-      - pnpm install --offline
+      - chmod 755 pnpm
+      - mkdir bin && mv pnpm dist bin/
+      - test "$(pnpm --version)" = "12.5.1"
+      # Use Node from SDK instead of downloading the lockfile's managed runtime.
+      - pnpm install --offline --frozen-lockfile --trust-lockfile --no-runtime
       - pnpm tauri build --features builtin-but,disable-auto-updates,packaged-but-distribution
         --config "$(jq -c --arg version "$VERSION" '.version = $version | .bundle.externalBin
         = ["gitbutler-git-askpass"] | .bundle.createUpdaterArtifacts = false' crates/gitbutler-tauri/tauri.conf.release.json)"
@@ -72,9 +77,19 @@ modules:
           type: json
           url: https://api.github.com/repos/gitbutlerapp/gitbutler/releases/latest
           tag-query: .tag_name
+      # pnpm setup in the same way that Podman does it:
+      # https://github.com/flathub/io.podman_desktop.PodmanDesktop/blob/master/io.podman_desktop.PodmanDesktop.yml
       - type: archive
-        url: https://registry.npmjs.org/pnpm/-/pnpm-10.20.0.tgz
-        sha256: 47a3352808501b8d1ef20112273b6a5dcfa53d28a55bcce36d268e878bd6bfe9
-        dest: pnpm
+        url: https://github.com/pnpm/pnpm/releases/download/v12.5.1/pnpm-linux-x64.tar.gz
+        sha256: 5a397dfb6b3d4b07d3d7769586aeb471048faf04299a492e2808b95a9a1c701f
+        strip-components: 0
+        only-arches:
+          - x86_64
+      - type: archive
+        url: https://github.com/pnpm/pnpm/releases/download/v12.5.1/pnpm-linux-arm64.tar.gz
+        sha256: 84e1290e82c800acd406b6db27e9650e15db3c2344d12162cc305ea1f942c6ff
+        strip-components: 0
+        only-arches:
+          - aarch64
       - cargo-sources.json
       - node-sources.json
