@@ -66,8 +66,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/gitbutlerapp/gitbutler.git
-        tag: release/0.22.3
-        commit: 0ba35dc675c0d0eebcf2e1d5e114b73d46019942
+        tag: release/0.23.2
+        commit: bfbdb6f7def65897d2b665e28bd1b63bd7def285
         x-checker-data:
           type: json
           url: https://api.github.com/repos/gitbutlerapp/gitbutler/releases/latest
