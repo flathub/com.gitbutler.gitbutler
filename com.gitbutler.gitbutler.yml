@@ -38,8 +38,8 @@ modules:
       - NO_TCLTK=1
     sources:
       - type: archive
-        url: https://www.kernel.org/pub/software/scm/git/git-2.56.0.tar.gz
-        sha256: 826817fd3671b8565586d6d49f688298de8354ab11db829c02720e5c74b9b39f
+        url: https://www.kernel.org/pub/software/scm/git/git-2.56.1.tar.gz
+        sha256: fd0c0495427dc9ac445fdced8e36bb5eb6f233a14da5db3c6dfd8dcfa7f85761
         x-checker-data:
           type: anitya
           project-id: 5350
@@ -71,8 +71,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/gitbutlerapp/gitbutler.git
-        tag: release/0.23.1
-        commit: d6feaf66d2040c764b335dfa6486b1a964b7ac5d
+        tag: release/0.23.4
+        commit: e0baf395ae381962e0d660288ba777d447711b1f
         x-checker-data:
           type: json
           url: https://api.github.com/repos/gitbutlerapp/gitbutler/releases/latest
