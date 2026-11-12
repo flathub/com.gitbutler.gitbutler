@@ -52,6 +52,11 @@ modules:
       env:
         CARGO_HOME: /run/build/gitbutler/cargo
         CARGO_NET_OFFLINE: 'true'
+        # Prevent nested archive sources from discovering GitButler's repository.
+        GIT_CEILING_DIRECTORIES: /run/build/gitbutler
+        GHOSTTY_SOURCE_DIR: /run/build/gitbutler/ghostty
+        GHOSTTY_ZIG_SYSTEM_DIR: /run/build/gitbutler/ghostty-zig-packages
+        ZIG: /run/build/gitbutler/zig/zig
         PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
         CHANNEL: release
         VERSION: 0.23.4
@@ -91,5 +96,23 @@ modules:
         strip-components: 0
         only-arches:
           - aarch64
+      # Must match libghostty-vt-sys's pinned Ghostty revision.
+      - type: archive
+        url: https://github.com/ghostty-org/ghostty/archive/521cf2c5d30bd48028ca61546c64e7913764073d.tar.gz
+        sha256: 82f4cac7a9861388800ab64392d7f401609ea9e7586990851f128e9c22b71784
+        dest: ghostty
+      - type: archive
+        url: https://ziglang.org/download/0.17.1/zig-x86_64-linux-0.17.1.tar.xz
+        sha256: 3581863e3cbcfd0fce0efc682ce7e9e93da96668a977791d356a26d2a7e9b17a
+        dest: zig
+        only-arches:
+          - x86_64
+      - type: archive
+        url: https://ziglang.org/download/0.17.1/zig-aarch64-linux-0.17.1.tar.xz
+        sha256: a1546d5646eb184437918d6635ca6b762a0e889eac09cef720ee7a1ed3fe7795
+        dest: zig
+        only-arches:
+          - aarch64
+      - ghostty-sources.json
       - cargo-sources.json
       - node-sources.json
