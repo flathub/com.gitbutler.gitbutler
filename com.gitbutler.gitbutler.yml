@@ -54,14 +54,14 @@ modules:
         CARGO_NET_OFFLINE: 'true'
         PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
         CHANNEL: release
-        VERSION: 0.23.1
+        VERSION: 0.23.4
     build-commands:
       - chmod 755 pnpm
       - mkdir bin && mv pnpm dist bin/
       - test "$(pnpm --version)" = "12.5.1"
       # Use Node from SDK instead of downloading the lockfile's managed runtime.
       - pnpm install --offline --frozen-lockfile --trust-lockfile --no-runtime
-      - pnpm tauri build --features builtin-but,disable-auto-updates,packaged-but-distribution
+      - pnpm tauri build --features builtin-but,builtin-gpui,disable-auto-updates,packaged-but-distribution
         --config "$(jq -c --arg version "$VERSION" '.version = $version | .bundle.externalBin
         = ["gitbutler-git-askpass"] | .bundle.createUpdaterArtifacts = false' crates/gitbutler-tauri/tauri.conf.release.json)"
         --bundles deb
