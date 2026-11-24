@@ -59,7 +59,7 @@ modules:
         ZIG: /run/build/gitbutler/zig/zig
         PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
         CHANNEL: release
-        VERSION: 0.23.4
+        VERSION: 0.23.5
     build-commands:
       - chmod 755 pnpm
       - mkdir bin && mv pnpm dist bin/
@@ -76,8 +76,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/gitbutlerapp/gitbutler.git
-        tag: release/0.23.4
-        commit: e0baf395ae381962e0d660288ba777d447711b1f
+        tag: release/0.23.5
+        commit: 2ca3b716234f6457b28a4b65b16ef413802b78d4
         x-checker-data:
           type: json
           url: https://api.github.com/repos/gitbutlerapp/gitbutler/releases/latest
